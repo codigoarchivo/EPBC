@@ -1,0 +1,56 @@
+.navbar {
+  align-items: center;
+  border-bottom: 0.25rem;
+  display: flex;
+  padding-left: 1.75rem !important;
+  padding-right: 1.75rem !important;
+  padding: 0.75rem;
+
+  @include responde(middle-phone) {
+    margin-bottom: 1.25rem; //5
+    padding-left: 0.75rem; //3
+    padding-right: 0.75rem; //3
+  }
+
+  @include responde(big-phone) {
+    margin-bottom: 3rem; //5
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  &__flexStart {
+    display: none;
+    @include responde(tab-port) {
+      display: flex;
+      flex: 0.25rem;
+    }
+  }
+  &__flexCenter {
+    display: flex;
+    justify-content: start;
+    flex: 0.25rem;
+
+    @include responde(tab-port) {
+      justify-content: flex-start;
+    }
+
+    &-image {
+      width: 200px;
+      height: 100px;
+      position: relative;
+      display: block;
+      @include responde(tab-port) {
+        display: none;
+      }
+    }
+    
+    &-SerchCategoryBase {
+      display: flex;
+      margin-left: 1.25rem;
+      @include responde(tab-port) {
+        display: none;
+        margin-left: 0;
+      }
+    }
+  }
+}
