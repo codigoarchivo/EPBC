@@ -1,1 +1,1 @@
-export * from './useModality';
+export * from './useProducts'

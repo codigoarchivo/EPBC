@@ -1,9 +1,7 @@
+# Next.js epbc
 
 
-## Getting Started
 
-First, run the development server:
 
-```
-yarn dev
-```
+
+

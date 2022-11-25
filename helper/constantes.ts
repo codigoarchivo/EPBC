@@ -1,0 +1,1 @@
+export const COLOR_G1 = '#43495b';

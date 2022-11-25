@@ -1,4 +1,6 @@
-export * from './Somebutton';
-export * from './IconOrAuthOrtext';
-export * from './seed';
-export * from './about';
+export * from './products';
+export * from './cart';
+export * from './user';
+export * from './order';
+export * from './dashboard';
+export * as IPaypal from './paypal';

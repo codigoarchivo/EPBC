@@ -1,0 +1,22 @@
+.circular-btn {
+  border-radius: 30px;
+}
+
+.circular-btn:hover {
+  background-color: #274494 !important;
+}
+
+.box-shadow {
+  border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+.bg--light {
+  background-color: $primary-ligth;
+  color: $primary-dark-b;
+}
+.bg--dark {
+  background-color: $primary-dark;
+  color: $primary-ligth;
+}
