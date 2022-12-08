@@ -1,15 +1,15 @@
-import { FC, ReactNode, useState, useMemo, useEffect } from "react";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Cookie from "js-cookie";
-import { ColorsContext } from "./";
+import { FC, ReactNode, useState, useMemo, useEffect } from 'react';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Cookie from 'js-cookie';
+import { ColorsContext } from './';
 
 interface PropsChildren {
   children: ReactNode;
 }
 
 export const ColorsProvider: FC<PropsChildren> = ({ children }) => {
-  const [mode, setMode] = useState<any>("dark");
-  const modeIni = Cookie.get("mode");
+  const [mode, setMode] = useState<any>('dark');
+  const modeIni = Cookie.get('mode');
 
   useEffect(() => {
     setMode(modeIni);
@@ -20,8 +20,8 @@ export const ColorsProvider: FC<PropsChildren> = ({ children }) => {
       // The dark mode switch would invoke this method
       toggleColorMode: () => {
         setMode((prevMode: any) => {
-          const nexMode = prevMode === "light" ? "dark" : "light";
-          Cookie.set("mode", nexMode);
+          const nexMode = prevMode === 'light' ? 'dark' : 'light';
+          Cookie.set('mode', nexMode);
           return nexMode;
         });
       },
@@ -35,52 +35,52 @@ export const ColorsProvider: FC<PropsChildren> = ({ children }) => {
         palette: {
           mode,
 
-          ...(mode === "light"
+          ...(mode === 'light'
             ? {
-                background: {
-                  default: "#E5E4E2",
-                  paper: "#E5E4E2",
-                },
-                primary: {
-                  main: "#fff",
-                },
-                secondary: {
-                  main: "#1b2232",
-                },
-                info: {
-                  main: "#fff",
-                },
-              }
+              background: {
+                default: '#E5E4E2',
+                paper: '#E5E4E2',
+              },
+              primary: {
+                main: '#fff',
+              },
+              secondary: {
+                main: '#1b2232',
+              },
+              info: {
+                main: '#fff',
+              },
+            }
             : {
-                background: {
-                  default: "#1b2232",
-                  paper: "#1b2232",
-                },
-                primary: {
-                  main: "#43495b",
-                },
-                secondary: {
-                  main: "#1b2232",
-                },
-                info: {
-                  main: "#fff",
-                },
-              }),
+              background: {
+                default: '#1b2232',
+                paper: '#1b2232',
+              },
+              primary: {
+                main: '#43495b',
+              },
+              secondary: {
+                main: '#1b2232',
+              },
+              info: {
+                main: '#fff',
+              },
+            }),
         },
         components: {
           MuiLink: {
             defaultProps: {
-              underline: "none",
+              underline: 'none',
             },
           },
           MuiAppBar: {
             defaultProps: {
               elevation: 0,
-              position: "fixed",
+              position: 'fixed',
             },
             styleOverrides: {
               root: {
-                backgroundColor: "white",
+                backgroundColor: 'white',
                 height: 60,
               },
             },
@@ -105,19 +105,19 @@ export const ColorsProvider: FC<PropsChildren> = ({ children }) => {
 
           MuiButton: {
             defaultProps: {
-              variant: "contained",
-              size: "small",
+              variant: 'contained',
+              size: 'small',
               disableElevation: true,
-              color: "info",
+              color: 'info',
             },
             styleOverrides: {
               root: {
-                textTransform: "none",
-                boxShadow: "none",
+                textTransform: 'none',
+                boxShadow: 'none',
                 borderRadius: 10,
-                ":hover": {
-                  backgroundColor: "rgba(0,0,0,0.05)",
-                  transition: "all 0.3s ease-in-out",
+                ':hover': {
+                  backgroundColor: 'rgba(0,0,0,0.05)',
+                  transition: 'all 0.3s ease-in-out',
                 },
               },
             },
@@ -129,8 +129,8 @@ export const ColorsProvider: FC<PropsChildren> = ({ children }) => {
             },
             styleOverrides: {
               root: {
-                boxShadow: "0px 5px 5px rgba(0,0,0,0.05)",
-                borderRadius: "10px",
+                boxShadow: '0px 5px 5px rgba(0,0,0,0.05)',
+                borderRadius: '10px',
               },
             },
           },
