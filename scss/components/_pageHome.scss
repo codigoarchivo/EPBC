@@ -1,14 +1,23 @@
 .swiper {
   width: 100%;
   height: 100%;
+
   &-button-prev {
     color: currentColor !important;
   }
+
   &-button-next {
     color: currentColor !important;
   }
+
   &-pagination-bullet-active {
     background-color: currentColor !important;
+  }
+}
+
+@include responde(tab-port) {
+  .swiper__item {
+    text-align: -webkit-center;
   }
 }
 
@@ -16,10 +25,10 @@
   .container-pageHome {
     padding-top: 100px;
     padding-bottom: 100px;
+  }
 
-    img {
-      width: 300px;
-      height: 320px;
-    }
+  .image-hero {
+    width: 300px;
+    height: 320px;
   }
 }
