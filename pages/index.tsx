@@ -7,7 +7,6 @@ import {
   Button,
   Grid,
   useTheme,
-  useMediaQuery,
   Typography
 } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -17,8 +16,9 @@ import { useProducts } from '../hooks';
 import { BaseLayout } from '../components/layouts';
 import { ProductCard } from '../components/products';
 import { FullScreenLoading } from '../components/ui';
-import { COLOR_G1 } from '../helper';
+import { COLOR_G1, mediaRes } from '../helper';
 
+type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl";
 
 const HomePage: NextPage = () => {
   const { breakpoints } = useTheme();
@@ -27,22 +27,10 @@ const HomePage: NextPage = () => {
   const sizeh1 = { xs: 24, md: 40, lg: 50 }
 
 
-  const data = ['xs', 'sm', 'md', 'lg', 'xl'];
-  const port = [{ xs: 1 }, { sm: 2 }, { md: 3 }, { lg: 4 }, { xl: 4 }];
+  const queryMedia: Breakpoint[] = ['xs', 'sm', 'md', 'lg', 'xl'];
+  const queryNumber: object[] = [{ xs: 1 }, { sm: 2 }, { md: 3 }, { lg: 4 }, { xl: 4 }];
 
-  let d: any = [];
-
-  data.map((item: any) => {
-    d.length === 2 ? d.shift() : d;
-    const c = useMediaQuery(item.startsWith('md') ? breakpoints.up(item) : breakpoints.up(item))
-    if (data.includes(item) && c) {
-      d.push({
-        valB: c,
-        valS: item,
-        valP: Object.values(port.filter((n: any) => n[item])[0])[0]
-      })
-    }
-  });
+  const resp = mediaRes(queryMedia, queryNumber);
 
   return (
     <BaseLayout title={'epbc-Shop - Home'} pageDescription={'Encuentra los mejores productos de epbc aqui'}>
@@ -50,7 +38,7 @@ const HomePage: NextPage = () => {
       {
         isLoading
           ? <FullScreenLoading />
-          : <Container maxWidth='lg' className='container-pageHome' >
+          : <Container maxWidth='xl' className='container-pageHome' >
             {/* hero */}
             <Stack
               flexDirection={{ base: "column", md: "row" }}
@@ -78,9 +66,9 @@ const HomePage: NextPage = () => {
               <Image
                 src={"/img/primary.png"}
                 alt="Picture of the author"
-                layout="fixed"
                 width={450}
                 height={500}
+                className={'image-hero'}
               />
             </Stack>
             {/* create account */}
@@ -106,90 +94,92 @@ const HomePage: NextPage = () => {
             </Stack>
 
             {/* Marque */}
-            <Stack spacing={10} mt={10}>
-              {/* Marquee */}
-              <Typography
-                p={{ xs: 2, sm: 0 }}
-                fontSize={sizeh1}
-                component={'h1'}
-              >
-                Tour Of All Our Products
-              </Typography>
-
-              <Grid
-                container
-                spacing={3}
-                justifyContent={'space-around'}
-                flexDirection={'column'}
-              >
-
-                <Marquee gradient={false} style={{ height: '420px' }}>
-                  {
-                    products.map((product, key) => (
-                      <ProductCard
-                        product={product}
-                        key={key}
-                        xs={12}
-                        sm={12}
-                        md={12}
-                      />
-                    ))
-                  }
-                </Marquee>
-              </Grid>
-            </Stack>
-
-            {/* Carousel */}
-            <Stack spacing={10} mt={10} mb={10}>
-              {/* Marquee */}
-              <Typography
-                p={{ xs: 2, sm: 0 }}
-                fontSize={sizeh1}
-                component={'h1'}
-              >
-                Tour Of All Our Products
-              </Typography>
-
-              <Grid
-                container
-                spacing={3}
-                justifyContent={'center'}
-                flexDirection={'column'}
-                color={COLOR_G1}
-              >
-                <Swiper
-                  slidesPerView={d[0].valP}
-                  spaceBetween={40}
-                  slidesPerGroup={4}
-                  loop={true}
-                  loopFillGroupWithBlank={true}
-                  pagination={{
-                    clickable: true,
-                  }}
-                  navigation={true}
-                  modules={[Navigation]}
-                  className="mySwiper"
+            <Container >
+              <Stack spacing={10} mt={10}>
+                <Typography
+                  p={{ xs: 2, sm: 0 }}
+                  fontSize={sizeh1}
+                  component={'h1'}
                 >
-                  <>
+                  Tour Of All Our Products
+                </Typography>
+
+                <Grid
+                  container
+                  spacing={0}
+                  justifyContent={'space-around'}
+                  flexDirection={'column'}
+                >
+
+                  <Marquee gradient={false} style={{ height: '420px' }}>
                     {
                       products.map((product, key) => (
-
-                        <SwiperSlide key={key}>
-                          <ProductCard
-                            product={product}
-                            xs={1}
-                            sm={1}
-                            md={1}
-                          />
-                        </SwiperSlide>
-
+                        <ProductCard
+                          product={product}
+                          key={key}
+                          xs={12}
+                          sm={12}
+                          md={12}
+                        />
                       ))
                     }
-                  </>
+                  </Marquee>
+                </Grid>
+              </Stack>
+            </Container>
 
-                </Swiper>
-              </Grid>
-            </Stack>
+            {/* Carousel */}
+            <Container>
+              <Stack spacing={10} mt={10} mb={10}>
+                <Typography
+                  p={{ xs: 2, sm: 0 }}
+                  fontSize={sizeh1}
+                  component={'h1'}
+                >
+                  Your last visits to our store
+                </Typography>
+
+                <Grid
+                  container
+                  spacing={0}
+                  justifyContent={'center'}
+                  flexDirection={'column'}
+                  color={COLOR_G1}
+                >
+                  <Swiper
+                    slidesPerView={resp[0].valP}
+                    spaceBetween={40}
+                    slidesPerGroup={4}
+                    loop={true}
+                    loopFillGroupWithBlank={true}
+                    pagination={{
+                      clickable: true,
+                    }}
+                    navigation={true}
+                    modules={[Navigation]}
+                    className="mySwiper"
+                  >
+                    <>
+                      {
+                        products.map((product, key) => (
+
+                          <SwiperSlide className='swiper__item' key={key}>
+                            <ProductCard
+                              product={product}
+                              xs={12}
+                              sm={12}
+                              md={12}
+                            />
+                          </SwiperSlide>
+
+                        ))
+                      }
+                    </>
+                  </Swiper>
+                </Grid>
+              </Stack>
+            </Container>
+
           </Container>
       }
     </BaseLayout>
