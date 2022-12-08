@@ -58,7 +58,7 @@ export const ProductCard: FC<Props> = ({ product, xs = 11, sm = 5, md = 3 }) => 
                 }}
                 >
                     <div
-                        style={{ height: "249px" }}
+                        style={{ height: "250px" }}
                         className={'fadeIn'}
                     >
                         <NextLink href={`/product/${product.slug}`} passHref prefetch={false}>
@@ -106,7 +106,14 @@ export const ProductCard: FC<Props> = ({ product, xs = 11, sm = 5, md = 3 }) => 
                                 {"0.0"}
                             </Typography>{" "}
                         </Stack>
-                        <Typography fontWeight={700}>{product.title}</Typography>
+                        <Stack
+                            flexDirection={'row'}
+                            textAlign={'left'}
+                            justifyContent={'space-between'}
+                        >
+
+                            <Typography fontWeight={700}>{product.title}</Typography>
+                        </Stack>
                         <Stack flexDirection={'row'} justifyContent={'space-between'}>
                             <Typography fontWeight={500}>${' '}{product.price}</Typography>
                             <ShoppingBagIcon />
