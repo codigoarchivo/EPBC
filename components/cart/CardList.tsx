@@ -10,27 +10,27 @@ import { ItemCounter } from '../ui';
 import { CartContext } from '../../context';
 import { ICartProduct, IOrdersItem } from '../../interfaces';
 
-
 interface Props {
     editable?: boolean,
     products?: IOrdersItem[],
+    favorite?: IOrdersItem[],
 }
 
-export const CardList: FC<Props> = ({ editable = false, products }) => {
-
-    const { cart, updateCartQuantity, removeCartProduct } = useContext(CartContext)
+export const CardList: FC<Props> = ({ editable = false, products, favorite = [] }) => {
+    const { cart, updateCartQuantity, removeCartProduct } = useContext(CartContext);
 
     const onNewQuantityValue = (product: ICartProduct, onNewQuantityValue: number) => {
         product.quantity = onNewQuantityValue;
         updateCartQuantity(product)
     };
 
-    const productsToShow = !!products ? products : cart;
+    const productOrFavorite = products || favorite;
+    const productsToShow = !!productOrFavorite ? productOrFavorite : cart;
 
     return (
         <>
             {
-                productsToShow.map(product => (
+                productsToShow.map((product: any) => (
                     <Grid container key={product.slug + product.size} >
                         <Grid item xs={3}>
                             <NextLink href={`/product/${product.slug}`} passHref>
@@ -48,7 +48,15 @@ export const CardList: FC<Props> = ({ editable = false, products }) => {
                         <Grid item xs={7}>
                             <Box display={'flex'} flexDirection={'column'}>
                                 <Typography variant='body1'>{product.title}</Typography>
-                                <Typography variant='body1'>Talla <strong>{product.size}</strong></Typography    >
+                                <Typography
+                                    variant='body1'>Talla:
+                                    <strong>
+                                        {
+                                            favorite.length > 0
+                                                ? product.size!.join(", ")
+                                                : product.size
+                                        }</strong>
+                                </Typography>
                                 {
                                     editable
                                         ? (
@@ -58,14 +66,24 @@ export const CardList: FC<Props> = ({ editable = false, products }) => {
                                                 updateQuantity={(value) => onNewQuantityValue(product as ICartProduct, value)}
                                             />
                                         )
-                                        : <Typography variant='h5'>{product.quantity} {product.quantity > 1 ? 'productos' : 'producto'}</Typography>
+                                        : (
+                                            <Typography variant='h5'>
+                                                {product.quantity} {product.quantity > 1 ? 'productos' : 'producto'}
+                                            </Typography>
+                                        )
                                 }
                             </Box>
                         </Grid>
                         <Grid item xs={2} display='flex' alignItems='center' flexDirection='column'>
                             <Typography variant='subtitle1'>${' '}{product.price}</Typography>
                             {
-                                editable && <Button onClick={() => removeCartProduct(product as ICartProduct)} variant='text' color='secondary'>Remover</Button>
+                                editable && (
+                                    <Button
+                                        onClick={() => removeCartProduct(product as ICartProduct)}
+                                        variant='text'
+                                        color='secondary'
+                                    >Remover</Button>
+                                )
                             }
 
                         </Grid>
