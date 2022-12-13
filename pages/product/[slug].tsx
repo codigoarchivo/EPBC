@@ -1,15 +1,19 @@
 import { useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import { NextPage, GetStaticPaths, GetStaticProps } from 'next';
-import { ShopLayout } from '../../components/layouts';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
+import IconButton from '@mui/material/IconButton';
+import { Stack } from '@mui/material';
+import { FavoriteBorder } from '@mui/icons-material';
+import Cookies from 'js-cookie';
 import { ProductSlideShow, SizeSelector } from '../../components/products';
 import { ItemCounter } from '../../components/ui';
 import { dbProducts } from '../../database';
+import { ShopLayout } from '../../components/layouts';
 import { ICartProduct, IProduct, ISize } from '../../interfaces';
 import { CartContext } from '../../context';
 
@@ -18,9 +22,7 @@ interface Props {
 }
 
 const ProductPage: NextPage<Props> = ({ product }) => {
-
   const router = useRouter();
-
   const { addProductToCart } = useContext(CartContext)
 
   const [temCartProduct, setTempCartProduct] = useState<ICartProduct>({
@@ -33,7 +35,6 @@ const ProductPage: NextPage<Props> = ({ product }) => {
     gender: product.gender,
     quantity: 5,
   });
-
 
   const onAddProduct = () => {
     if (!temCartProduct.size) { return; };
@@ -55,6 +56,28 @@ const ProductPage: NextPage<Props> = ({ product }) => {
       ...currentProduct,
       quantity
     }));
+  };
+
+  const handleSelected = () => {
+    const favorite = Cookies.get('favorite') ? JSON.parse(Cookies.get('favorite')!) : [];
+    const isFavorite = favorite.some((item: IProduct) => item._id.startsWith(product._id));
+
+    if (isFavorite) {
+      return;
+    }
+    
+    const addFavorite = {
+      _id: product._id,
+      image: product.images[0],
+      price: product.price,
+      size: product.sizes,
+      slug: product.slug,
+      title: product.title,
+      gender: product.gender,
+      quantity: product.inStock
+    }
+
+    Cookies.set('favorite', JSON.stringify([...favorite, addFavorite]));
   };
 
   return (
@@ -89,17 +112,29 @@ const ProductPage: NextPage<Props> = ({ product }) => {
             (product.inStock > 0)
               ?
               (
-                <Button
-                  onClick={onAddProduct}
-                  sx={{ width: '-webkit-fill-available' }}
-                  color={'secondary'}
-                  className={'circular-btn'}>
-                  {
-                    temCartProduct.size
-                      ? 'Agregar al carrito'
-                      : 'Seleccione una talla'
-                  }
-                </Button>
+                <Stack flexDirection={'row'}>
+                  <Button
+                    onClick={onAddProduct}
+                    color={'secondary'}
+                    className={'circular-btn'}>
+                    {
+                      temCartProduct.size
+                        ? 'Agregar al carrito'
+                        : 'Seleccione una talla'
+                    }
+                  </Button>
+                  <div>
+                    <IconButton
+                      sx={{
+                        marginLeft: '1rem'
+                      }}
+                      className='fadeIn'
+                      onClick={handleSelected}
+                    >
+                      <FavoriteBorder />
+                    </IconButton>
+                  </div>
+                </Stack>
               )
               : (
                 <Chip sx={{ width: '-webkit-fill-available' }} label='No hay disponibles' color={'error'} variant={'outlined'}></Chip>
