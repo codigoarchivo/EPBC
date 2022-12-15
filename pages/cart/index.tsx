@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useMemo } from 'react';
 import NextLink from "next/link";
 import { useRouter } from 'next/router';
 import Card from '@mui/material/Card';
@@ -8,13 +8,13 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import Cookies from 'js-cookie';
 import { ShopLayout } from '../../components/layouts';
 import { CartContext } from '../../context';
 import { CardList, } from '../../components/cart';
-import Cookies from 'js-cookie';
 
 const CardPage = () => {
-    const favorite = Cookies.get('favorite') ? JSON.parse(Cookies.get('favorite')!) : [];
+    const favorite = useMemo(() => Cookies.get('favorite') ? JSON.parse(Cookies.get('favorite')!) : [], []);
     const { isLoaded, cart } = useContext(CartContext);
     const { replace } = useRouter();
 
@@ -22,7 +22,7 @@ const CardPage = () => {
         if (isLoaded && cart.length === 0 && favorite.length === 0) {
             replace('/cart/empty');
         };
-    }, [isLoaded, cart, replace]);
+    }, [isLoaded, cart, replace, favorite]);
 
     if (!isLoaded) {
         return (<></>);
