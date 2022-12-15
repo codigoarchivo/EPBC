@@ -40,17 +40,17 @@ export const StickyFooter = () => {
                 </Typography>
 
                 <Stack flexDirection={'row'} justifyContent={'center'}>
-                    <a href='https://www.facebook.com/edgar.marcanosantodomingo' target={'_blank'}>
+                    <a href='https://www.facebook.com/edgar.marcanosantodomingo' target={'_blank'} rel="noreferrer">
                         <IconButton>
                             <Facebook />
                         </IconButton>
                     </a>
-                    <a href='https://www.instagram.com/p/CYcsvrVgEC5/?utm_medium=share_sheet' target={'_blank'}>
+                    <a href='https://www.instagram.com/p/CYcsvrVgEC5/?utm_medium=share_sheet' target={'_blank'} rel="noreferrer">
                         <IconButton>
                             <Instagram />
                         </IconButton>
                     </a>
-                    <a href='https://twitter.com/edgarspendulum?t=PmWj-xl1JJ407GU2Lk8wDg&s=09' target={'_blank'}>
+                    <a href='https://twitter.com/edgarspendulum?t=PmWj-xl1JJ407GU2Lk8wDg&s=09' target={'_blank'} rel="noreferrer">
                         <IconButton>
                             <Twiter />
                         </IconButton>
