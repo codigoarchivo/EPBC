@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useMemo } from 'react';
 import NextLink from "next/link";
 import { useRouter } from 'next/router';
 import Card from '@mui/material/Card';
@@ -8,13 +8,13 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import Cookies from 'js-cookie';
 import { ShopLayout } from '../../components/layouts';
 import { CartContext } from '../../context';
 import { CardList, } from '../../components/cart';
-import Cookies from 'js-cookie';
 
 const CardPage = () => {
-    const favorite = Cookies.get('favorite') ? JSON.parse(Cookies.get('favorite')!) : [];
+    const favorite = useMemo(() => Cookies.get('favorite') ? JSON.parse(Cookies.get('favorite')!) : [], []);
     const { isLoaded, cart } = useContext(CartContext);
     const { replace } = useRouter();
 
@@ -22,7 +22,7 @@ const CardPage = () => {
         if (isLoaded && cart.length === 0 && favorite.length === 0) {
             replace('/cart/empty');
         };
-    }, [isLoaded, cart, replace]);
+    }, [isLoaded, cart, replace, favorite]);
 
     if (!isLoaded) {
         return (<></>);
@@ -67,31 +67,33 @@ const CardPage = () => {
                     </Grid>
                 </Stack>
 
-                <Stack spacing={3}>
+                <Stack spacing={5}>
                     <Typography variant={'h1'} component={'h1'}>
                         Añadidos recientemente a la lista de deseos
                     </Typography>
                     <Grid container>
-                        <Grid item xs={12} sm={9}>
+                        <Grid item xs={12} sm={10}>
                             <CardList editable={false} favorite={favorite} />
                         </Grid>
-                        <Grid item xs={12} sm={3}>
-                            <Button
-                                color='secondary'
-                                className='circular-btn'
-                                fullWidth
+                        <Grid item xs={12} sm={2}>
+                            <Stack spacing={2} >
+                                <Button
+                                    color='primary'
+                                    className='circular-btn'
+                                    fullWidth
 
-                            >
-                                agregar
-                            </Button>
-                            <Button
-                                color='secondary'
-                                className='circular-btn'
-                                fullWidth
+                                >
+                                    Agregar
+                                </Button>
+                                <Button
+                                    color='primary'
+                                    className='circular-btn'
+                                    fullWidth
 
-                            >
-                                quitar
-                            </Button>
+                                >
+                                    Quitar
+                                </Button>
+                            </Stack>
                         </Grid>
                     </Grid>
                 </Stack>

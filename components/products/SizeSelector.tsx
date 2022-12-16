@@ -1,9 +1,5 @@
 import { FC } from "react";
-
-import Box from "@mui/material/Box"
-
 import Button from "@mui/material/Button"
-
 import { ISize } from "../../interfaces";
 
 interface Props {
@@ -16,10 +12,11 @@ interface Props {
 
 export const SizeSelector: FC<Props> = ({ selectedSize, sizes, onSelectedSize }) => {
     return (
-        <Box>
+        <div>
             {
                 sizes.map((size) => (
                     <Button
+                        sx={{ marginLeft: 0.5 }}
                         key={size}
                         size='small'
                         color={selectedSize === size ? 'primary' : 'info'}
@@ -29,6 +26,6 @@ export const SizeSelector: FC<Props> = ({ selectedSize, sizes, onSelectedSize })
                     </Button>
                 ))
             }
-        </Box>
+        </div>
     )
 }

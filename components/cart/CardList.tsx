@@ -5,6 +5,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import CardMedia from '@mui/material/CardMedia';
+import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { ItemCounter } from '../ui';
 import { CartContext } from '../../context';
@@ -31,7 +32,7 @@ export const CardList: FC<Props> = ({ editable = false, products, favorite = [] 
         <>
             {
                 productsToShow.map((product: any) => (
-                    <Grid container key={product.slug + product.size} >
+                    <Grid container spacing={2} key={product.slug + product.size} >
                         <Grid item xs={3}>
                             <NextLink href={`/product/${product.slug}`} passHref>
                                 <Box>
@@ -46,14 +47,14 @@ export const CardList: FC<Props> = ({ editable = false, products, favorite = [] 
                             </NextLink>
                         </Grid>
                         <Grid item xs={7}>
-                            <Box display={'flex'} flexDirection={'column'}>
+                            <Stack display={'flex'} flexDirection={'column'}>
                                 <Typography variant='body1'>{product.title}</Typography>
                                 <Typography
                                     variant='body1'>Talla:
                                     <strong>
                                         {
                                             favorite.length > 0
-                                                ? product.size!.join(", ")
+                                                ? product.sizes!.join(", ")
                                                 : product.size
                                         }</strong>
                                 </Typography>
@@ -72,7 +73,7 @@ export const CardList: FC<Props> = ({ editable = false, products, favorite = [] 
                                             </Typography>
                                         )
                                 }
-                            </Box>
+                            </Stack>
                         </Grid>
                         <Grid item xs={2} display='flex' alignItems='center' flexDirection='column'>
                             <Typography variant='subtitle1'>${' '}{product.price}</Typography>
