@@ -70,7 +70,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
       _id: product._id,
       image: product.images[0],
       price: product.price,
-      size: product.sizes,
+      sizes: product.sizes,
       slug: product.slug,
       title: product.title,
       gender: product.gender,
