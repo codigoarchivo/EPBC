@@ -67,31 +67,33 @@ const CardPage = () => {
                     </Grid>
                 </Stack>
 
-                <Stack spacing={3}>
+                <Stack spacing={5}>
                     <Typography variant={'h1'} component={'h1'}>
                         Añadidos recientemente a la lista de deseos
                     </Typography>
                     <Grid container>
-                        <Grid item xs={12} sm={9}>
+                        <Grid item xs={12} sm={10}>
                             <CardList editable={false} favorite={favorite} />
                         </Grid>
-                        <Grid item xs={12} sm={3}>
-                            <Button
-                                color='secondary'
-                                className='circular-btn'
-                                fullWidth
+                        <Grid item xs={12} sm={2}>
+                            <Stack spacing={2} >
+                                <Button
+                                    color='primary'
+                                    className='circular-btn'
+                                    fullWidth
 
-                            >
-                                agregar
-                            </Button>
-                            <Button
-                                color='secondary'
-                                className='circular-btn'
-                                fullWidth
+                                >
+                                    Agregar
+                                </Button>
+                                <Button
+                                    color='primary'
+                                    className='circular-btn'
+                                    fullWidth
 
-                            >
-                                quitar
-                            </Button>
+                                >
+                                    Quitar
+                                </Button>
+                            </Stack>
                         </Grid>
                     </Grid>
                 </Stack>
