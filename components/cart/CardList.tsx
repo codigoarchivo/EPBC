@@ -14,10 +14,9 @@ import { ICartProduct, IOrdersItem } from '../../interfaces';
 interface Props {
     editable?: boolean,
     products?: IOrdersItem[],
-    favorite?: IOrdersItem[],
 }
 
-export const CardList: FC<Props> = ({ editable = false, products, favorite = [] }) => {
+export const CardList: FC<Props> = ({ editable = false, products }) => {
     const { cart, updateCartQuantity, removeCartProduct } = useContext(CartContext);
 
     const onNewQuantityValue = (product: ICartProduct, onNewQuantityValue: number) => {
@@ -25,8 +24,7 @@ export const CardList: FC<Props> = ({ editable = false, products, favorite = [] 
         updateCartQuantity(product)
     };
 
-    const productOrFavorite = products || favorite;
-    const productsToShow = !!productOrFavorite ? productOrFavorite : cart;
+    const productsToShow = !!products ? products : cart;
 
     return (
         <>
@@ -51,12 +49,7 @@ export const CardList: FC<Props> = ({ editable = false, products, favorite = [] 
                                 <Typography variant='body1'>{product.title}</Typography>
                                 <Typography
                                     variant='body1'>Talla:
-                                    <strong>
-                                        {
-                                            favorite.length > 0
-                                                ? product.sizes!.join(", ")
-                                                : product.size
-                                        }</strong>
+                                    <strong>{product.size}</strong>
                                 </Typography>
                                 {
                                     editable
@@ -83,7 +76,9 @@ export const CardList: FC<Props> = ({ editable = false, products, favorite = [] 
                                         onClick={() => removeCartProduct(product as ICartProduct)}
                                         variant='text'
                                         color='secondary'
-                                    >Remover</Button>
+                                    >
+                                        Remover
+                                    </Button>
                                 )
                             }
 
