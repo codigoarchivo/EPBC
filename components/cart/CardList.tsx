@@ -30,7 +30,7 @@ export const CardList: FC<Props> = ({ editable = false, products }) => {
         <>
             {
                 productsToShow.map((product: any) => (
-                    <Grid container spacing={2} key={product.slug + product.size} >
+                    <Grid mb={2} container spacing={2} key={product.slug + product.size} >
                         <Grid item xs={3}>
                             <NextLink href={`/product/${product.slug}`} passHref>
                                 <Box>

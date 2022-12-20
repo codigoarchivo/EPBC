@@ -1,19 +1,15 @@
 import { FC, useReducer, ReactNode, useEffect } from 'react';
-
 import axios from 'axios';
-
 import Cookie from 'js-cookie';
-
 import { CartContext, cartReducer } from './';
-
 import { ICartProduct, IOrder, ShippingAddress } from '../../interfaces';
-
 import { epbcApi } from '../../api';
 
 
 export interface CartState {
     isLoaded: boolean;
     cart: ICartProduct[];
+    favorites: ICartProduct[];
     numberOfItems: number;
     subTotal: number;
     tax: number;
@@ -31,6 +27,7 @@ interface Props {
 const CART_INITIAL_STATE: CartState = {
     isLoaded: false,
     cart: [],
+    favorites: [],
     numberOfItems: 0,
     subTotal: 0,
     tax: 0,
@@ -71,8 +68,13 @@ export const CartProvider: FC<Props> = ({ children }) => {
     }, []);
 
     useEffect(() => {
+        Cookie.set('favorite', JSON.stringify(state.favorites));
+    }, [state.favorites]);
+
+    useEffect(() => {
         Cookie.set('cart', JSON.stringify(state.cart));
     }, [state.cart]);
+
 
 
     useEffect(() => {
@@ -177,6 +179,22 @@ export const CartProvider: FC<Props> = ({ children }) => {
         }
     };
 
+    const addFavorite = (product: ICartProduct) => {
+        const favorite = Cookie.get('favorite') ? JSON.parse(Cookie.get('favorite')!) : [];
+        // evaluate favorite
+        const isFavorite = favorite.some((item: ICartProduct) => item._id.startsWith(product._id));
+
+        if (isFavorite) {
+            return;
+        }
+
+        dispatch({ type: '[Cart] - Save favorite', payload: [...favorite, product] });
+    }
+
+    const deleteFavorite = (product: ICartProduct) => {
+        dispatch({ type: '[Cart] - Delete favorite', payload: product });
+    }
+
     return (
         <CartContext.Provider value={{
             ...state,
@@ -186,6 +204,10 @@ export const CartProvider: FC<Props> = ({ children }) => {
             updateCartQuantity,
             removeCartProduct,
             updateAddress,
+
+            // favorites
+            addFavorite,
+            deleteFavorite,
 
             // orders
             createOrder,

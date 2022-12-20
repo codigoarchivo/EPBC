@@ -9,7 +9,6 @@ import Chip from '@mui/material/Chip';
 import IconButton from '@mui/material/IconButton';
 import { Stack } from '@mui/material';
 import { FavoriteBorder } from '@mui/icons-material';
-import Cookies from 'js-cookie';
 import { ProductSlideShow, SizeSelector } from '../../components/products';
 import { ItemCounter } from '../../components/ui';
 import { dbProducts } from '../../database';
@@ -23,7 +22,7 @@ interface Props {
 
 const ProductPage: NextPage<Props> = ({ product }) => {
   const router = useRouter();
-  const { addProductToCart } = useContext(CartContext)
+  const { addProductToCart, addFavorite } = useContext(CartContext)
 
   const [temCartProduct, setTempCartProduct] = useState<ICartProduct>({
     _id: product._id,
@@ -59,14 +58,8 @@ const ProductPage: NextPage<Props> = ({ product }) => {
   };
 
   const handleSelected = () => {
-    const favorite = Cookies.get('favorite') ? JSON.parse(Cookies.get('favorite')!) : [];
-    const isFavorite = favorite.some((item: IProduct) => item._id.startsWith(product._id));
-
-    if (isFavorite) {
-      return;
-    }
-    
-    const addFavorite = {
+    // save selected
+    const add = {
       _id: product._id,
       image: product.images[0],
       price: product.price,
@@ -76,8 +69,8 @@ const ProductPage: NextPage<Props> = ({ product }) => {
       gender: product.gender,
       quantity: product.inStock
     }
-
-    Cookies.set('favorite', JSON.stringify([...favorite, addFavorite]));
+    
+    addFavorite(add);
   };
 
   return (
