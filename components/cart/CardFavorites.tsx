@@ -43,7 +43,7 @@ export const CardFavorites: FC<Props> = ({ favorite }) => {
             gender: favorite.gender,
             quantity: temCartProduct.quantity
         }
-    
+
         addProductToCart(add);
         deleteFavorite(add)
         setTempCartProduct(initialState);
@@ -100,11 +100,17 @@ export const CardFavorites: FC<Props> = ({ favorite }) => {
                     />
 
                     {/* size */}
-                    <SizeSelector
-                        sizes={favorite.sizes as ISize[]}
-                        selectedSize={temCartProduct.size}
-                        onSelectedSize={selectedSize}
-                    />
+                    <div style={{
+                        display: favorite?.sizes !== undefined
+                            ? 'block'
+                            : 'none'
+                    }}>
+                        <SizeSelector
+                            sizes={favorite.sizes as ISize[]}
+                            selectedSize={temCartProduct.size}
+                            onSelectedSize={selectedSize}
+                        />
+                    </div>
                 </Stack>
             </Grid>
             <Grid item xs={12} sm={8} md={2}>
