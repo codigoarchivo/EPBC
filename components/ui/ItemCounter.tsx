@@ -30,7 +30,7 @@ export const ItemCounter: FC<Props> = ({ updateQuantity, currentValue, maxValue 
     };
 
     return (
-        <Box display='flex' alignItems='center'>
+        <Box my={2} display='flex' alignItems='center'>
             <IconButton onClick={() => addOrRemove(-1)}>
                 <RemoveCircleOutline />
             </IconButton>
