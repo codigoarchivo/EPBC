@@ -8,27 +8,29 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import Cookies from 'js-cookie';
 import { ShopLayout } from '../../components/layouts';
-import { CartContext } from '../../context';
 import { CardFavorites, CardList, } from '../../components/cart';
-import { ICartProduct } from '../../interfaces';
+import { CartContext } from '../../context';
 
 const CardPage = () => {
     const { replace } = useRouter();
-    const { isLoaded, cart } = useContext(CartContext);
-
-    const favorites = useMemo(() =>
-        Cookies.get('favorite')
-            ? JSON.parse(Cookies.get('favorite')!)
-            : []
-        , []) as ICartProduct[];
+    const { isLoaded, cart, favorites } = useContext(CartContext);
 
     useEffect(() => {
-        if (isLoaded && cart.length === 0 && favorites.length === 0) {
+        if (
+            isLoaded &&
+            cart.length === 0 &&
+            favorites.length === 0
+        ) {
             replace('/cart/empty');
         };
-    }, [isLoaded, cart, replace, favorites]);
+    }, [
+        isLoaded,
+        cart,
+        replace,
+        favorites
+    ]);
+
 
     if (!isLoaded) {
         return (<></>);
@@ -73,7 +75,7 @@ const CardPage = () => {
                     </Grid>
                 </Stack>
 
-                <Stack spacing={8}>
+                <Stack spacing={8} display={!!favorites[0] ? 'flex' : 'none'}>
                     <Typography variant={'h1'} component={'h1'}>
                         Añadidos recientemente a la lista de deseos
                     </Typography>
@@ -81,7 +83,7 @@ const CardPage = () => {
 
                         {
                             favorites?.map((favorite, key) => (
-                                <CardFavorites favorite={favorite} favorites={favorites} key={key} />
+                                <CardFavorites favorite={favorite} key={key} />
                             ))
                         }
                     </Stack>
