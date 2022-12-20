@@ -1,6 +1,6 @@
 import { CartState } from './';
 
-import { ICartProduct, ShippingAddress } from '../../interfaces';
+import { ICartProduct, IProduct, ShippingAddress } from '../../interfaces';
 
 type CartActionType =
     | { type: '[Cart] - LoadCart from cookies | storage', payload: ICartProduct[] }
@@ -20,6 +20,8 @@ type CartActionType =
         }
     }
     | { type: '[Cart] - Order Complete' }
+    | { type: '[Cart] - Save favorite', payload: ICartProduct[] }
+    | { type: '[Cart] - Delete favorite', payload: ICartProduct }
 
 export const cartReducer = (state: CartState, action: CartActionType): CartState => {
     switch (action.type) {
@@ -41,7 +43,7 @@ export const cartReducer = (state: CartState, action: CartActionType): CartState
                     if (product._id === action.payload._id) return product;
                     if (product.size === action.payload.size) return product;
 
-                    return action.payload;
+                    return product;
                 })
             }
         case '[Cart] - Remove product in cart':
@@ -72,6 +74,16 @@ export const cartReducer = (state: CartState, action: CartActionType): CartState
                 subTotal: 0,
                 tax: 0,
                 total: 0,
+            }
+        case '[Cart] - Save favorite':
+            return {
+                ...state,
+                favorites: action.payload
+            }
+        case '[Cart] - Delete favorite':
+            return {
+                ...state,
+                favorites: state.favorites.filter((product) => !(product._id === action.payload._id))
             }
         default: state;
             return state;
