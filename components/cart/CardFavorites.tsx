@@ -7,45 +7,45 @@ import {
     CardActionArea,
     CardMedia
 } from "@mui/material";
-import Cookies from 'js-cookie';
-import { ICartProduct, ISize } from "../../interfaces";
+import { ICartProduct, IProduct, ISize } from "../../interfaces";
 import { SizeSelector } from "../products";
 import { ItemCounter } from "../ui";
 import { CartContext } from '../../context';
 
 interface Props {
-    favorites: ICartProduct[],
     favorite: ICartProduct,
 }
 
-const initialState: ICartProduct = {
-    _id: '',
-    image: '',
-    price: 0,
+interface Iinitial {
+    size: ISize | undefined;
+    quantity: number;
+}
+
+const initialState: Iinitial = {
     size: undefined,
-    slug: '',
-    title: '',
-    gender: 'men',
     quantity: 5,
 }
 
-export const CardFavorites: FC<Props> = ({ favorite, favorites }) => {
-    const { addProductToCart } = useContext(CartContext);
-
-    const [temCartProduct, setTempCartProduct] = useState<ICartProduct>(initialState);
+export const CardFavorites: FC<Props> = ({ favorite }) => {
+    const { addProductToCart, deleteFavorite } = useContext(CartContext);
+    const [temCartProduct, setTempCartProduct] = useState<Iinitial>(initialState);
 
     const onAddProduct = () => {
         if (!temCartProduct.size) { return };
-        addProductToCart(temCartProduct);
 
-        const deleteFavorite = favorites.filter((item) => !item._id.startsWith(temCartProduct._id));
-        if (deleteFavorite.length === 0) {
-            Cookies.remove('favorite');
-            setTempCartProduct(initialState);
-            return;
+        const add = {
+            _id: favorite._id,
+            image: favorite.image,
+            price: favorite.price,
+            size: temCartProduct.size,
+            slug: favorite.slug,
+            title: favorite.title,
+            gender: favorite.gender,
+            quantity: temCartProduct.quantity
         }
-
-        Cookies.set('favorite', JSON.stringify(deleteFavorite));
+    
+        addProductToCart(add);
+        deleteFavorite(add)
         setTempCartProduct(initialState);
     };
 
@@ -63,12 +63,17 @@ export const CardFavorites: FC<Props> = ({ favorite, favorites }) => {
         }));
     };
 
+    const selectDelete = () => {
+        // delete selected
+        deleteFavorite(favorite)
+    }
+
     return (
         <Grid container spacing={0} justifyContent={'center'}>
             <Grid item xs={10} sm={5} md={2}>
                 <CardActionArea>
                     <CardMedia
-                        image={favorite.image}
+                        image={favorite.image!}
                         component='img'
                         sx={{ borderRadius: '5px' }}
                     />
@@ -81,7 +86,11 @@ export const CardFavorites: FC<Props> = ({ favorite, favorites }) => {
                         component={'h1'}
                         fontSize={'1.4rem'}
                     >{favorite.title}</Typography>
-                    <Typography variant={'subtitle1'} component={'h2'}>${' '}{favorite.price}</Typography>
+                    <Typography
+                        variant={'subtitle1'}
+                        component={'h2'}>
+                        ${' '}{favorite.price}
+                    </Typography>
 
                     {/* count */}
                     <ItemCounter
@@ -110,6 +119,7 @@ export const CardFavorites: FC<Props> = ({ favorite, favorites }) => {
                         Agregar
                     </Button>
                     <Button
+                        onClick={selectDelete}
                         color='primary'
                         className='circular-btn'
                         fullWidth
