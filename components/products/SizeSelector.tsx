@@ -16,7 +16,7 @@ export const SizeSelector: FC<Props> = ({ selectedSize, sizes, onSelectedSize })
             {
                 sizes?.map((size) => (
                     <Button
-                        sx={{ marginLeft: 0.5, marginBottom: { xs: 0.5, sm: 0 } }}
+                        sx={{ marginLeft: 0.5, marginBottom: 2 }}
                         key={size}
                         size='small'
                         color={selectedSize === size ? 'primary' : 'info'}
