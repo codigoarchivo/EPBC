@@ -1,4 +1,4 @@
-import moongose, { Schema, Model, model } from 'mongoose';
+import moongose, { Schema, Model, model, Types } from 'mongoose';
 
 import { IProduct } from '../interfaces/products';
 
@@ -13,6 +13,7 @@ const productSchema = new Schema({
             values: ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'],
             message: '{VALUE} no es un tamaño válido'
         },
+        require: false
     }],
     slug: { type: String, require: true, unique: true },
     tags: [{ type: String }],
@@ -33,9 +34,12 @@ const productSchema = new Schema({
         },
         default: 'women'
     },
-}, {
-    timestamps: true
-});
+},
+    {
+        timestamps: true,
+        versionKey: false,
+    }
+);
 
 productSchema.index({ title: 'text', tags: 'text' })
 
