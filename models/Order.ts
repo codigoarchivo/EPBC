@@ -31,9 +31,12 @@ const orderSchema = new Schema({
     paidAt: { type: String },
 
     transactionId: { type: String },
-}, {
-    timestamps: true
-});
+},
+    {
+        timestamps: true,
+        versionKey: false,
+    }
+);
 
 const Order: Model<IOrder> = mongoose.models.Order || model('Order', orderSchema);
 export default Order;

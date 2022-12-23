@@ -1,0 +1,54 @@
+.dropbtn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 7px;
+}
+.dropdown {
+  display: inline-block;
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
+  position: relative;
+  &:hover {
+    .dropdown-content {
+      display: block;
+    }
+  }
+}
+
+.dropdown-content {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  display: none;
+  min-width: 160px;
+  position: absolute;
+  z-index: 1;
+
+  .span-light,
+  .span-dark {
+    display: block;
+    padding: 12px 16px;
+  }
+  .span-light {
+    &:hover {
+      color: currentColor !important;
+      background-color: $primary-hover-ligth;
+    }
+  }
+  .span-dark {
+    &:hover {
+      color: currentColor !important;
+      background-color: $primary-hover-dark;
+    }
+  }
+}
+
+/* Adding a border-radius to the last child of the dropdown-content. */
+.text-light:last-child span,
+.text-dark:last-child span {
+  &:hover {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+}

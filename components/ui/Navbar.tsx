@@ -3,7 +3,6 @@ import NextLink from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import AppBar from '@mui/material/AppBar';
-import Button from '@mui/material/Button';
 import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -17,23 +16,34 @@ import { CartContext, UiContext } from '../../context';
 import { StyledBadge } from '../../utils/styled';
 
 export const Navbar = () => {
-    const { asPath, push } = useRouter();
+    const { push } = useRouter();
     const { toggleSideMenu } = useContext(UiContext);
     const { numberOfItems } = useContext(CartContext);
     const theme = useTheme();
     const [searchTerm, setSearchTerm] = useState('');
     const [isSearchVisible, setIsSearchVisible] = useState(false);
-    
+
     const BadgeStyled = StyledBadge('#44b700', '#44b700');
-    
+
     const onSearchTerm = () => {
         if (searchTerm.trim().length === 0) return;
 
         push(`/search/${searchTerm}`);
     }
 
+    const dataCategory = [
+        {
+            name: 'moda',
+            type: 'gender',
+            serch: ['men', 'women', 'kid'],
+        }
+    ]
+
     return (
-        <AppBar className={`box-shadow bg--${theme.palette.mode}`}>
+        <AppBar
+            style={{ borderRadius: 0 }}
+            className={`box-shadow bg--${theme.palette.mode}`}
+        >
             <Toolbar>
 
                 <div className="logo">
@@ -46,27 +56,6 @@ export const Navbar = () => {
                         />
                     </NextLink>
                 </div>
-
-
-                <Box flex={1} />
-
-                <Box className='fadeIn' sx={{ display: isSearchVisible ? 'none' : { xs: 'none', sm: 'flex' } }}>
-                    <NextLink href={'/category/men'} passHref>
-                        <Box>
-                            <Button color={asPath === '/category/men' ? 'primary' : 'info'}>Hombre</Button>
-                        </Box>
-                    </NextLink>
-                    <NextLink href={'/category/women'} passHref>
-                        <Box>
-                            <Button color={asPath === '/category/women' ? 'primary' : 'info'}>Mujeres</Button>
-                        </Box>
-                    </NextLink>
-                    <NextLink href={'/category/kid'} passHref>
-                        <Box>
-                            <Button color={asPath === '/category/kid' ? 'primary' : 'info'}>Niños</Button>
-                        </Box>
-                    </NextLink>
-                </Box>
 
                 <Box flex={1} />
 
@@ -111,7 +100,11 @@ export const Navbar = () => {
                 <NextLink href={'/cart'} passHref>
                     <Box>
                         <IconButton>
-                            <Badge badgeContent={numberOfItems > 9 ? '+9' : numberOfItems} color={'secondary'}>
+                            <Badge badgeContent={
+                                numberOfItems > 9
+                                    ? '+9'
+                                    : numberOfItems
+                            } color={'secondary'}>
                                 <ShoppingCartOutlined />
                             </Badge>
                         </IconButton>
@@ -121,13 +114,44 @@ export const Navbar = () => {
                     <BadgeStyled
                         onClick={toggleSideMenu}
                         overlap="circular"
-                        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right'
+                        }}
                         variant="dot"
                     >
                         <Avatar alt="Remy Sharp" src="https://bit.ly/dan-abramov" />
                     </BadgeStyled>
                 </div>
             </Toolbar>
+            <nav>
+                {
+                    dataCategory.map((data) => (
+                        <ul className="dropdown">
+                            <button className={`dropbtn text-${theme.palette.mode}`}>{data.name}</button>
+                            <li className={`dropdown-content box-shadow  bg--${theme.palette.mode}`}>
+                                {data.serch.map((serch) => (
+                                    <NextLink
+                                        href={{
+                                            pathname: '/category/[section]/[...slug]',
+                                            query: {
+                                                section: data.name,
+                                                slug: [serch, data.type]
+                                            }
+                                        }}
+                                        className={`text-${theme.palette.mode} ultimo`}
+                                        passHref>
+                                        <span className={`span-${theme.palette.mode}`}>
+                                            {serch}
+                                        </span>
+                                    </NextLink>
+                                ))}
+                            </li>
+                        </ul>
+
+                    ))
+                }
+            </nav>
         </AppBar >
     )
 };
