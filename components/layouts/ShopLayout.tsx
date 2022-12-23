@@ -25,14 +25,12 @@ export const ShopLayout: FC<Props> = ({ children, title, pageDescription, imageF
                     )
                 }
             </Head>
-            <nav>
-                <Navbar />
-            </nav>
+            <Navbar />
 
-            <SideMenu/>
-            
+            <SideMenu />
+
             <main style={{
-                margin: '80px auto',
+                margin: '100px auto',
                 maxWidth: '1440px',
                 padding: '0 30px',
             }}
