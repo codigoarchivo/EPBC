@@ -77,13 +77,7 @@ export const ColorsProvider: FC<PropsChildren> = ({ children }) => {
             defaultProps: {
               elevation: 0,
               position: 'fixed',
-            },
-            styleOverrides: {
-              root: {
-                backgroundColor: 'white',
-                height: 60,
-              },
-            },
+            }
           },
 
           MuiTypography: {
