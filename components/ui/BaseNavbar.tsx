@@ -45,8 +45,8 @@ export const BaseNavbar = () => {
                     <Link href={'/store'} passHref>
                         <Image
                             src={`/img/${theme.palette.mode}.png`}
-                            width={200}
-                            height={35}
+                            width={100}
+                            height={100}
                             alt={'Not foto'}
                         />
                     </Link>
